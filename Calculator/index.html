@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<head>
+  <link rel="stylesheet" href="style.css">
+  <!-- import math.js -->
+  <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+</head>
+ 
+<body>
+  <script>
+    let expr = ''
+    function solve(e){
+      let bot = document.getElementById("bottombar")
+      let top = document.getElementById("expr")
+
+      expr = bot.innerText
+
+      top.innerText = expr + "="
+      top.scrollLeft = top.scrollWidth
+
+      function filter(e){
+        e = e.replace("x", '*')
+        e = e.replace("sin(", "sin(deg ")
+        e = e.replace("cos(", "cos(deg ")
+        e = e.replace("tan(", "tan(deg ")
+        e = e.replace("E", "*10^")
+        console.log(e)
+        let new_e = ""
+        let stack = []
+        let l, r = 0
+        for(let i=0;i<e.length;i++){
+            if(e[i] == "n" && i>0 && e[i-1] == "l"){
+                new_e += "og"
+                stack.push((l, r))
+                l = 1
+                r = 0
+                continue
+            }else if(e[i]==")"){
+                r++
+                if(r==l){
+                    l,r = stack.pop()
+                    new_e += ", e)"
+                    continue
+                }
+            }else if(e[i]=="("){
+                l++
+            }
+            new_e += e[i]
+        }
+
+        return new_e
+      }
+
+      try {
+          let ans = math.eval(filter(expr))
+          bot.innerText = ans
+          expr = ans
+      } catch (error) {
+          bot.innerText = "ERROR"
+          expr = ""
+      }   
+    }
+
+    function onClick(input){
+      bot = document.getElementById("bottombar")
+      if(input=="AC"){
+          expr = ""
+          bot.innerText = expr
+      }else{
+          expr+=input
+          bot.innerText = expr
+      }
+      bot.scrollLeft = bot.scrollWidth
+    }
+  </script>
+
+  <div class="container">
+
+    <div class="calculator">
+      <div class="topbar">
+        <svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path></svg>
+        <div id = "expr" class="expression"></div>
+      </div>
+      
+      <div id="bottombar" class="bottombar">
+        0
+      </div>
+    </div>
+
+    <br>
+    <div class="numberbtn">
+      <div >
+        <!-- <button name="submit" class="action_btn submit" type="submit" value="" onclick="myFunction()">Rad</button> -->
+        <button> <i>Deg</i></button>
+        <button onclick="onClick('!')"><i>x!</i></button>
+        <button onclick="onClick('(')"><i>(</i></button>
+        <button onclick="onClick(')')"><i>)</i></button>
+        <button onclick="onClick('%')"><i>%</i</button>
+        <button onclick="onClick('AC')" class="AC"><i>AC</i></button>
+      </div>
+
+      <div>
+        <button onclick="onClick('sin(')"><i>sin</i></button>
+        <button onclick="onClick('ln(')"><i>ln </i></button>
+        <button onclick="onClick('7')" class="number"><i>7</i></button>
+        <button onclick="onClick('8')" class="number"><i>8</i></button>
+        <button onclick="onClick('9')" class="number"> <i>9</i></button>
+        <button onclick="onClick('/')"> <i>÷</i> </button>
+      </div>
+
+      <!-- <div>
+        <button>sin</button>
+        <button>ln </button>
+        <button class="number"> 7 </button>
+        <button class="number"> 8 </button>
+        <button class="number"> 9 </button>
+        <button> ÷ </button>
+      </div> -->
+
+      <div>
+        <button onclick="onClick('cos(')"><i>cos</i></button>
+        <button onclick="onClick('log(')"><i>log</i></button>
+        <button onclick="onClick('4')" class="number"> <i>4</i> </button>
+        <button onclick="onClick('5')" class="number"> <i>5</i> </button>
+        <button onclick="onClick('6')" class="number"> <i>6</i> </button>
+        <button onclick="onClick('x')"> <i>x</i> </button>
+      </div>
+
+      <div>
+        <button onclick="onClick('tan(')"><i>tan</i></button>
+        <button onclick="onClick('sqrt(')"> <i>√</i> </button>
+        <button onclick="onClick('1')" class="number"> <i>1</i> </button>
+        <button onclick="onClick('2')"class="number"> <i>2</i> </button>
+        <button onclick="onClick('3')" class="number"> <i>3</i> </button>
+        <button onclick="onClick('-')"> - </button>
+      </div>
+
+      <div>
+        <button onclick="onClick('E')"><i>EXP</i></button>
+        <button onclick="onClick('^(')"> <i>x<sup>y</sup></i> </button>
+        <button onclick="onClick('0')" class="number"> <i>0</i> </button>
+        <button onclick="onClick('.')"> <i>.</i> </button>
+        <button onclick="solve()"> <i>=</i> </button>
+        <button onclick="onClick('+')"> <i>+</i> </button>
+      </div>
+  </div>
+</div>
+</body>
+</html>
