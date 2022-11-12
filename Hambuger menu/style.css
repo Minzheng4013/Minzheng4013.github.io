@@ -1,0 +1,44 @@
+h1{
+  font-weight: bold;
+}
+p{
+font-style: italic;
+}
+h1,h2,p{
+  text-align: center;
+}
+body{
+  /* background:repeat; */
+  /* height: 600px; */
+  /* background-size: 100%; */
+  background: url('Photos/bgpic.jpeg');
+  background-attachment: fixed; 
+}
+h2{
+  font-size: 30px;
+}
+.container{
+  /* height: 500px; */
+  width: 80%;
+  border: solid  black;
+  background-color:goldenrod;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 500px;
+  padding: 20px;
+}
+hr{
+  height: 3px;
+  background-color: yellow;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -25px;
+    
+}
+
+
+
